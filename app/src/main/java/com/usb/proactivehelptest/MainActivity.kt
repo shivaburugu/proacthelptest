@@ -18,15 +18,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         lastInteractionTime = System.currentTimeMillis()
-        proactiveRunnable = Runnable {
-            if(System.currentTimeMillis() - lastInteractionTime >= PROACT_DURATION) {
-                Log.d(TAG, "startproact help")
-                Toast.makeText(this, "Starting Proact Help", Toast.LENGTH_LONG).show()
-            } else {
-                proactiveHelpHandler.removeCallbacks(proactiveRunnable)
-                proactiveHelpHandler.postDelayed(proactiveRunnable,PROACT_DURATION)
-            }
-        }
     }
 
     override fun onUserInteraction() {
@@ -37,6 +28,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        proactiveRunnable = Runnable {
+            if(System.currentTimeMillis() - lastInteractionTime >= PROACT_DURATION) {
+                Log.d(TAG, "startproact help")
+                Toast.makeText(this, "Starting Proact Help", Toast.LENGTH_LONG).show()
+            } else {
+                proactiveHelpHandler.removeCallbacks(proactiveRunnable)
+                proactiveHelpHandler.postDelayed(proactiveRunnable,PROACT_DURATION)
+            }
+        }
         proactiveHelpHandler.postDelayed(proactiveRunnable,PROACT_DURATION)
     }
 
